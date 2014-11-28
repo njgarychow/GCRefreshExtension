@@ -1,14 +1,14 @@
 //
-//  GCRefreshHeaderView.m
+//  GCRefreshFooterView.m
 //  GCRefreshExtension
 //
-//  Created by zhoujinqiang on 14/11/27.
-//  Copyright (c) 2014年 zhoujinqiang. All rights reserved.
+//  Created by njgarychow on 11/28/14.
+//  Copyright (c) 2014 zhoujinqiang. All rights reserved.
 //
 
-#import "GCRefreshHeaderView.h"
+#import "GCRefreshFooterView.h"
 
-@implementation GCRefreshHeaderView
+@implementation GCRefreshFooterView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -20,6 +20,7 @@
 
 - (void)refreshFromProgress:(float)fromProgress toProgress:(float)toProgress {
     self.backgroundColor = [UIColor colorWithRed:.5f green:.5f blue:.5f alpha:toProgress];
+    NSLog(@"%f", toProgress);
 }
 
 - (void)refreshTriggered {

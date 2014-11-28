@@ -18,4 +18,9 @@
 - (void)startHeaderRefresh;
 - (void)endHeaderRefresh;
 
+@property (nonatomic, strong) UIView<GCRefreshProtocol>* footerRefreshView;
+- (void)setFooterRefreshAction:(void (^)())footerRefreshAction;
+- (void)startFooterRefresh;
+- (void)endFooterRefresh;
+
 @end

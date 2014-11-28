@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		611E08471A28C45A00719262 /* GCRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E08461A28C45A00719262 /* GCRefreshFooterView.m */; };
 		B7BB34471A26C25D007FAC3C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BB34461A26C25D007FAC3C /* main.m */; };
 		B7BB344A1A26C25D007FAC3C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BB34491A26C25D007FAC3C /* AppDelegate.m */; };
 		B7BB344D1A26C25D007FAC3C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BB344C1A26C25D007FAC3C /* ViewController.m */; };
@@ -29,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		611E08451A28C45A00719262 /* GCRefreshFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCRefreshFooterView.h; sourceTree = "<group>"; };
+		611E08461A28C45A00719262 /* GCRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCRefreshFooterView.m; sourceTree = "<group>"; };
 		B7BB34411A26C25D007FAC3C /* GCRefreshExtension.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GCRefreshExtension.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7BB34451A26C25D007FAC3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7BB34461A26C25D007FAC3C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -135,6 +138,8 @@
 				B7BB346C1A26C441007FAC3C /* UIScrollView+GCRefresh.m */,
 				B7BB347A1A270D47007FAC3C /* GCRefreshHeaderView.h */,
 				B7BB347B1A270D47007FAC3C /* GCRefreshHeaderView.m */,
+				611E08451A28C45A00719262 /* GCRefreshFooterView.h */,
+				611E08461A28C45A00719262 /* GCRefreshFooterView.m */,
 			);
 			path = GCRefresh;
 			sourceTree = "<group>";
@@ -244,6 +249,7 @@
 				B7BB34471A26C25D007FAC3C /* main.m in Sources */,
 				B7BB347C1A270D47007FAC3C /* GCRefreshHeaderView.m in Sources */,
 				B7BB346D1A26C441007FAC3C /* UIScrollView+GCRefresh.m in Sources */,
+				611E08471A28C45A00719262 /* GCRefreshFooterView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,20 +23,30 @@
     
     __weak typeof(self) weakSelf = self;
     self.scroll = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    self.scroll.contentSize = CGSizeMake(CGRectGetWidth(self.scroll.bounds), CGRectGetHeight(self.scroll.bounds) * 5);
+    self.scroll.contentSize = CGSizeMake(CGRectGetWidth(self.scroll.bounds), CGRectGetHeight(self.scroll.bounds) * 2);
     [self.scroll usingRefresh];
     [self.scroll setHeaderRefreshAction:^{
-        [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopLoading) userInfo:nil repeats:NO];
+        [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopHeaderLoading) userInfo:nil repeats:NO];
+    }];
+    [self.scroll setFooterRefreshAction:^{
+        [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopFooterLoading) userInfo:nil repeats:NO];
     }];
     [self.view addSubview:self.scroll];
     
     UIImageView* image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
-    image.frame = self.scroll.frame;
+    CGRect frame = self.scroll.frame;
+    frame.size.height *= 2;
+    image.frame = frame;
     [self.scroll addSubview:image];
 }
 
-- (void)stopLoading {
+- (void)stopHeaderLoading {
+    self.scroll.contentSize = CGSizeMake(CGRectGetWidth(self.scroll.bounds), CGRectGetHeight(self.scroll.bounds) * 2.2);
     [self.scroll endHeaderRefresh];
+}
+- (void)stopFooterLoading {
+    [self.scroll endFooterRefresh];
+    self.scroll.contentSize = CGSizeMake(CGRectGetWidth(self.scroll.bounds), CGRectGetHeight(self.scroll.bounds) * 2.2);
 }
 
 - (void)didReceiveMemoryWarning {
