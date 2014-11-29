@@ -102,7 +102,7 @@ static char isRefreshingKey;
                 [self.headerRefreshView refreshFromProgress:(fabsf(oldY) / triggerHeight) toProgress:(fabsf(y) / triggerHeight)];
             }
             
-            if (!self.isDragging && fabsf(y) >= triggerHeight) {
+            if (!self.isDragging && fabsf(oldY) >= triggerHeight) {
                 if (self.headerRefreshActionBlock) {
                     self.headerRefreshActionBlock();
                 }
@@ -123,7 +123,7 @@ static char isRefreshingKey;
                 [self.footerRefreshView refreshFromProgress:(((oldY + CGRectGetHeight(self.bounds)) - footerDistance) / triggerHeight) toProgress:(((y + CGRectGetHeight(self.bounds)) - footerDistance) / triggerHeight)];
             }
             
-            if (!self.isDragging && (((y + CGRectGetHeight(self.bounds)) - footerDistance) > triggerHeight)) {
+            if (!self.isDragging && (((oldY + CGRectGetHeight(self.bounds)) - footerDistance) > triggerHeight)) {
                 if (self.footerRefreshActionBlock) {
                     self.footerRefreshActionBlock();
                 }
@@ -200,6 +200,9 @@ static char HeaderRefreshViewCharKey;
                      }
                      completion:^(BOOL finished) {
                          self.isRefreshing = NO;
+                         if ([self.headerRefreshView respondsToSelector:@selector(refreshCompleted)]) {
+                             [self.headerRefreshView refreshCompleted];
+                         }
                      }];
     
 }
@@ -256,6 +259,9 @@ static char footerRefreshViewKey;
                      completion:^(BOOL finished) {
                          [self _resetFooterViewFrame];
                          self.isRefreshing = NO;
+                         if ([self.footerRefreshView respondsToSelector:@selector(refreshCompleted)]) {
+                             [self.footerRefreshView refreshCompleted];
+                         }
                      }];
 }
 

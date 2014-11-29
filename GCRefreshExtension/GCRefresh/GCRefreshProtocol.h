@@ -14,5 +14,6 @@
 - (void)refreshFromProgress:(float)fromProgress toProgress:(float)toProgress;
 - (void)refreshTriggered;
 - (void)refreshEnd;
+- (void)refreshCompleted;
 
 @end
