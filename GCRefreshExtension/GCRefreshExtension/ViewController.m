@@ -40,6 +40,12 @@
     [self.scroll addSubview:image];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.scroll startFooterRefreshWithAnimation:YES];
+}
+
 - (void)stopHeaderLoading {
     self.scroll.contentSize = CGSizeMake(CGRectGetWidth(self.scroll.bounds), CGRectGetHeight(self.scroll.bounds) * 2.2);
     [self.scroll endHeaderRefresh];
@@ -51,7 +57,9 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    static int i = 0;
+    [self.scroll startHeaderRefreshWithAnimation:((++i) % 2 == 0)];
 }
 
 @end

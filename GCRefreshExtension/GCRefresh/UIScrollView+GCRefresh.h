@@ -15,12 +15,12 @@
 
 @property (nonatomic, strong) UIView<GCRefreshProtocol>* headerRefreshView;
 - (void)setHeaderRefreshAction:(void (^)())headerRefreshAction;
-- (void)startHeaderRefresh;
+- (void)startHeaderRefreshWithAnimation:(BOOL)animation;
 - (void)endHeaderRefresh;
 
 @property (nonatomic, strong) UIView<GCRefreshProtocol>* footerRefreshView;
 - (void)setFooterRefreshAction:(void (^)())footerRefreshAction;
-- (void)startFooterRefresh;
+- (void)startFooterRefreshWithAnimation:(BOOL)animation;
 - (void)endFooterRefresh;
 
 @end

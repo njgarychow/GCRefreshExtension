@@ -12,6 +12,7 @@
 
 #import "GCRefreshHeaderView.h"
 #import "GCRefreshFooterView.h"
+#import "GCExtension.h"
 
 
 @interface UIScrollView (GCRefreshProperty)
@@ -45,6 +46,7 @@ static char footerRefreshActionBlockKey;
 - (void)setFooterRefreshActionBlock:(void (^)())footerRefreshActionBlock {
     [self willChangeValueForKey:@"footerRefreshActionBlock"];
     objc_setAssociatedObject(self, &footerRefreshActionBlockKey, footerRefreshActionBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    [self didChangeValueForKey:@"footerRefreshActionBlock"];
 }
 
 
@@ -69,23 +71,12 @@ static char isRefreshingKey;
 @implementation UIScrollView (GCRefresh)
 
 - (void)usingRefresh {
-    [self addObserver:self
-           forKeyPath:@"contentOffset"
-              options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-              context:nil];
+    [self stopObserveObject:self forKeyPath:@"contentOffset"];
+    [self stopObserveObject:self forKeyPath:@"contentSize"];
     
-    [self addObserver:self
-           forKeyPath:@"contentSize"
-              options:0
-              context:nil];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-    
-    if ([@"contentOffset" isEqual:keyPath]) {
+    __weak typeof(self) weakSelf = self;
+    [self startObserveObject:self forKeyPath:@"contentOffset" usingBlock:^(NSObject *target, NSString *keyPath, NSDictionary *change) {
+        
         if (self.isRefreshing) {
             return;
         }
@@ -96,51 +87,54 @@ static char isRefreshingKey;
             return;
         }
         
-        if (y < 0 && self.headerRefreshView) {
-            const float triggerHeight = [self _headerRefreshTriggerHeight];
-            if ([self.headerRefreshView respondsToSelector:@selector(refreshFromProgress:toProgress:)]) {
-                [self.headerRefreshView refreshFromProgress:(fabsf(oldY) / triggerHeight) toProgress:(fabsf(y) / triggerHeight)];
+        if (y < 0 && weakSelf.headerRefreshView) {
+            const float triggerHeight = [weakSelf _headerRefreshTriggerHeight];
+            if ([weakSelf.headerRefreshView respondsToSelector:@selector(refreshFromProgress:toProgress:)]) {
+                [weakSelf.headerRefreshView refreshFromProgress:(fabsf(oldY) / triggerHeight) toProgress:(fabsf(y) / triggerHeight)];
             }
             
-            if (!self.isDragging && fabsf(oldY) >= triggerHeight) {
-                if (self.headerRefreshActionBlock) {
-                    self.headerRefreshActionBlock();
+            float maxY = MAX(fabsf(oldY), fabsf(y));
+            if (!weakSelf.isDragging && fabsf(maxY) >= triggerHeight) {
+                if (weakSelf.headerRefreshActionBlock) {
+                    weakSelf.headerRefreshActionBlock();
                 }
-                self.isRefreshing = YES;
-                if ([self.headerRefreshView respondsToSelector:@selector(refreshTriggered)]) {
-                    [self.headerRefreshView refreshTriggered];
+                weakSelf.isRefreshing = YES;
+                if ([weakSelf.headerRefreshView respondsToSelector:@selector(refreshTriggered)]) {
+                    [weakSelf.headerRefreshView refreshTriggered];
                 }
                 [UIView animateWithDuration:0.3f animations:^{
-                    self.contentInset = UIEdgeInsetsMake(triggerHeight, 0, 0, 0);
+                    weakSelf.contentInset = UIEdgeInsetsMake(triggerHeight, 0, 0, 0);
                 }];
             }
         }
         
-        float footerDistance = MAX(CGRectGetHeight(self.bounds), self.contentSize.height);
-        if (self.footerRefreshView && (y + CGRectGetHeight(self.bounds) > footerDistance)) {
-            const float triggerHeight = [self _footerRefreshTriggerHeight];
-            if ([self.footerRefreshView respondsToSelector:@selector(refreshFromProgress:toProgress:)]) {
-                [self.footerRefreshView refreshFromProgress:(((oldY + CGRectGetHeight(self.bounds)) - footerDistance) / triggerHeight) toProgress:(((y + CGRectGetHeight(self.bounds)) - footerDistance) / triggerHeight)];
+        float footerDistance = MAX(CGRectGetHeight(weakSelf.bounds), weakSelf.contentSize.height);
+        if (weakSelf.footerRefreshView && (y + CGRectGetHeight(weakSelf.bounds) > footerDistance)) {
+            const float triggerHeight = [weakSelf _footerRefreshTriggerHeight];
+            if ([weakSelf.footerRefreshView respondsToSelector:@selector(refreshFromProgress:toProgress:)]) {
+                [weakSelf.footerRefreshView refreshFromProgress:(((oldY + CGRectGetHeight(weakSelf.bounds)) - footerDistance) / triggerHeight) toProgress:(((y + CGRectGetHeight(weakSelf.bounds)) - footerDistance) / triggerHeight)];
             }
             
-            if (!self.isDragging && (((oldY + CGRectGetHeight(self.bounds)) - footerDistance) > triggerHeight)) {
-                if (self.footerRefreshActionBlock) {
-                    self.footerRefreshActionBlock();
+            float maxY = MAX(fabsf(oldY), fabsf(y));
+            if (!weakSelf.isDragging && (((maxY + CGRectGetHeight(weakSelf.bounds)) - footerDistance) > triggerHeight)) {
+                if (weakSelf.footerRefreshActionBlock) {
+                    weakSelf.footerRefreshActionBlock();
                 }
-                self.isRefreshing = YES;
-                if ([self.footerRefreshView respondsToSelector:@selector(refreshTriggered)]) {
-                    [self.footerRefreshView refreshTriggered];
+                weakSelf.isRefreshing = YES;
+                if ([weakSelf.footerRefreshView respondsToSelector:@selector(refreshTriggered)]) {
+                    [weakSelf.footerRefreshView refreshTriggered];
                 }
                 [UIView animateWithDuration:0.3f animations:^{
-                    self.contentInset = UIEdgeInsetsMake(0, 0, triggerHeight, 0);
+                    weakSelf.contentInset = UIEdgeInsetsMake(0, 0, triggerHeight, 0);
                 }];
             }
         }
-    }
+    }];
     
-    if ([@"contentSize" isEqual:keyPath]) {
-        [self _resetFooterViewFrame];
-    }
+    [self startObserveObject:self forKeyPath:@"contentSize" usingBlock:^(NSObject *target, NSString *keyPath, NSDictionary *change) {
+        
+        [weakSelf _resetFooterViewFrame];
+    }];
 }
 
 
@@ -185,25 +179,30 @@ static char HeaderRefreshViewCharKey;
 }
 
 
-- (void)startHeaderRefresh {
-    self.contentOffset = CGPointMake(0, -[self _headerRefreshTriggerHeight]);
+- (void)startHeaderRefreshWithAnimation:(BOOL)animation {
+    [UIView
+     animateWithDuration:(animation ? .3f : 0)
+     animations:^{
+         self.contentOffset = CGPointMake(0, -[self _headerRefreshTriggerHeight]);
+     }];
 }
 - (void)endHeaderRefresh {
     if ([self.headerRefreshView respondsToSelector:@selector(refreshEnd)]) {
         [self.headerRefreshView refreshEnd];
     }
-    [UIView animateWithDuration:0.3f
-                          delay:0.1f
-                        options:0
-                     animations:^{
-                         self.contentInset = UIEdgeInsetsZero;
-                     }
-                     completion:^(BOOL finished) {
-                         self.isRefreshing = NO;
-                         if ([self.headerRefreshView respondsToSelector:@selector(refreshCompleted)]) {
-                             [self.headerRefreshView refreshCompleted];
-                         }
-                     }];
+    [UIView
+     animateWithDuration:0.3f
+     delay:0.1f
+     options:0
+     animations:^{
+         self.contentInset = UIEdgeInsetsZero;
+     }
+     completion:^(BOOL finished) {
+         self.isRefreshing = NO;
+         if ([self.headerRefreshView respondsToSelector:@selector(refreshCompleted)]) {
+             [self.headerRefreshView refreshCompleted];
+         }
+     }];
     
 }
 
@@ -242,27 +241,32 @@ static char footerRefreshViewKey;
     }
 }
 
-- (void)startFooterRefresh {
-    self.contentOffset = CGPointMake(0, [self _footerRefreshTriggerYOffset]);
+- (void)startFooterRefreshWithAnimation:(BOOL)animation {
+    [UIView
+     animateWithDuration:(animation ? .3f : 0)
+     animations:^{
+         self.contentOffset = CGPointMake(0, [self _footerRefreshTriggerYOffset]);
+     }];
 }
 
 - (void)endFooterRefresh {
     if ([self.footerRefreshView respondsToSelector:@selector(refreshEnd)]) {
         [self.footerRefreshView refreshEnd];
     }
-    [UIView animateWithDuration:0.3f
-                          delay:0.1f
-                        options:0
-                     animations:^{
-                         self.contentInset = UIEdgeInsetsZero;
-                     }
-                     completion:^(BOOL finished) {
-                         [self _resetFooterViewFrame];
-                         self.isRefreshing = NO;
-                         if ([self.footerRefreshView respondsToSelector:@selector(refreshCompleted)]) {
-                             [self.footerRefreshView refreshCompleted];
-                         }
-                     }];
+    [UIView
+     animateWithDuration:0.3f
+     delay:0.1f
+     options:0
+     animations:^{
+         self.contentInset = UIEdgeInsetsZero;
+     }
+     completion:^(BOOL finished) {
+         [self _resetFooterViewFrame];
+         self.isRefreshing = NO;
+         if ([self.footerRefreshView respondsToSelector:@selector(refreshCompleted)]) {
+             [self.footerRefreshView refreshCompleted];
+         }
+     }];
 }
 
 
