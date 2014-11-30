@@ -111,6 +111,7 @@
 		611E087F1A2B65BD00719262 /* UITextView+GCDelegateBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+GCDelegateBlock.m"; sourceTree = "<group>"; };
 		611E08801A2B65BD00719262 /* UIWebView+GCDelegateBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+GCDelegateBlock.h"; sourceTree = "<group>"; };
 		611E08811A2B65BD00719262 /* UIWebView+GCDelegateBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+GCDelegateBlock.m"; sourceTree = "<group>"; };
+		611E089B1A2B713D00719262 /* GCRefresh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCRefresh.h; sourceTree = "<group>"; };
 		B7BB34411A26C25D007FAC3C /* GCRefreshExtension.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GCRefreshExtension.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7BB34451A26C25D007FAC3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7BB34461A26C25D007FAC3C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -297,6 +298,7 @@
 		B7BB346A1A26C3BD007FAC3C /* GCRefresh */ = {
 			isa = PBXGroup;
 			children = (
+				611E089B1A2B713D00719262 /* GCRefresh.h */,
 				611E08481A2B65BD00719262 /* GCExtension */,
 				B7BB346E1A26CD19007FAC3C /* GCRefreshProtocol.h */,
 				B7BB346B1A26C441007FAC3C /* UIScrollView+GCRefresh.h */,

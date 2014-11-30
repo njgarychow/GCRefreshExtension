@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-#import "UIScrollView+GCRefresh.h"
+#import "GCRefresh.h"
 
 @interface ViewController ()
 
