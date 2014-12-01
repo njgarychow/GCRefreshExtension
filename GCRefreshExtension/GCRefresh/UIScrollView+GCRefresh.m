@@ -183,6 +183,9 @@ static char HeaderRefreshViewCharKey;
     if (self.isRefreshing) {
         return;
     }
+    if (!self.headerRefreshView) {
+        return;
+    }
     
     [UIView
      animateWithDuration:(animation ? .3f : 0)
@@ -192,6 +195,9 @@ static char HeaderRefreshViewCharKey;
 }
 - (void)endHeaderRefresh {
     if (!self.isRefreshing) {
+        return;
+    }
+    if (!self.headerRefreshView) {
         return;
     }
     
@@ -253,6 +259,9 @@ static char footerRefreshViewKey;
     if (self.isRefreshing) {
         return;
     }
+    if (!self.footerRefreshView) {
+        return;
+    }
     
     [UIView
      animateWithDuration:(animation ? .3f : 0)
@@ -263,6 +272,9 @@ static char footerRefreshViewKey;
 
 - (void)endFooterRefresh {
     if (!self.isRefreshing) {
+        return;
+    }
+    if (!self.footerRefreshView) {
         return;
     }
     

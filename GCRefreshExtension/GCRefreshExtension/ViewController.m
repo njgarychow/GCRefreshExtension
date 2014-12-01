@@ -28,9 +28,9 @@
     [self.scroll setHeaderRefreshAction:^{
         [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopHeaderLoading) userInfo:nil repeats:NO];
     }];
-    [self.scroll setFooterRefreshAction:^{
-        [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopFooterLoading) userInfo:nil repeats:NO];
-    }];
+//    [self.scroll setFooterRefreshAction:^{
+//        [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopFooterLoading) userInfo:nil repeats:NO];
+//    }];
     [self.view addSubview:self.scroll];
     
     UIImageView* image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
