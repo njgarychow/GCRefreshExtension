@@ -24,13 +24,12 @@
     __weak typeof(self) weakSelf = self;
     self.scroll = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.scroll.contentSize = CGSizeMake(CGRectGetWidth(self.scroll.bounds), CGRectGetHeight(self.scroll.bounds) * 2);
-    [self.scroll usingRefresh];
     [self.scroll setHeaderRefreshAction:^{
         [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopHeaderLoading) userInfo:nil repeats:NO];
     }];
-//    [self.scroll setFooterRefreshAction:^{
-//        [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopFooterLoading) userInfo:nil repeats:NO];
-//    }];
+    [self.scroll setFooterRefreshAction:^{
+        [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopFooterLoading) userInfo:nil repeats:NO];
+    }];
     [self.view addSubview:self.scroll];
     
     UIImageView* image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];

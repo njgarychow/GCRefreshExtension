@@ -12,11 +12,6 @@
 @interface UIScrollView (GCRefresh)
 
 /**
- *  invoke to trigger the refresh function.
- */
-- (void)usingRefresh;
-
-/**
  *  the showing header view when refreshing
  */
 @property (nonatomic, strong) UIView<GCRefreshProtocol>* headerRefreshView;
