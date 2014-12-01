@@ -22,7 +22,7 @@
 @property (nonatomic, strong) UIView<GCRefreshProtocol>* headerRefreshView;
 /**
  *  Set the action when the header refresh is triggered. Or nil if you want to 
- *  remove the header refresh function.
+ *  remove the header refresh function. The trigger height is the view's height.
  *
  *  @param headerRefreshAction  The action will be invoke when the header refresh triggered.
  */
@@ -45,7 +45,7 @@
 @property (nonatomic, strong) UIView<GCRefreshProtocol>* footerRefreshView;
 /**
  *  Set the action when the footer refresh is triggered. Or nil if you want to
- *  remove the footer refresh function.
+ *  remove the footer refresh function. The trigger height is the view's height.
  *
  *  @param footerRefreshAction  The action will be invoke when the footer refresh triggered.
  */
