@@ -10,11 +10,6 @@
 @interface UIScrollView (GCRefresh)
 
 /**
- *  invoke to trigger the refresh function.
- */
-- (void)usingRefresh;
-
-/**
  *  the showing header view when refreshing
  */
 @property (nonatomic, strong) UIView<GCRefreshProtocol>* headerRefreshView;
@@ -102,7 +97,6 @@
     __weak typeof(self) weakSelf = self;
     self.scroll = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.scroll.contentSize = CGSizeMake(CGRectGetWidth(self.scroll.bounds), CGRectGetHeight(self.scroll.bounds) * 2);
-    [self.scroll usingRefresh];
     [self.scroll setHeaderRefreshAction:^{
         [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopHeaderLoading) userInfo:nil repeats:NO];
     }];
