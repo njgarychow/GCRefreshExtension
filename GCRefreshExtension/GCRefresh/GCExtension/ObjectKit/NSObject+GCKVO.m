@@ -111,8 +111,8 @@ typedef void(^GCObserverDeallocationHandler)();
         wrapper.handlerBlock = handler;
         [_wrappers addObject:wrapper];
         
-        __weak typeof(self) weak_self = self;
-        __weak typeof(wrapper) weak_wrapper = wrapper;
+        __block typeof(self) weak_self = self;
+        __block typeof(wrapper) weak_wrapper = wrapper;
         [[observeTarger theDeallocationHandler] addHandler:^{
             [weak_wrapper.observeTarget removeObserver:weak_self forKeyPath:keyPath context:nil];
             [weak_self.wrappers removeObject:wrapper];
