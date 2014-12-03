@@ -16,6 +16,10 @@
  */
 @property (nonatomic, strong) UIView<GCRefreshProtocol>* headerRefreshView;
 /**
+ *  The height of header refresh trigger. Default is headerRefreshView's height.
+ */
+@property (nonatomic, assign) float headerRefreshTriggerHeight;
+/**
  *  Set the action when the header refresh is triggered. Or nil if you want to 
  *  remove the header refresh function. The trigger height is the view's height.
  *
@@ -38,6 +42,10 @@
  *  the showing footer view when refreshing
  */
 @property (nonatomic, strong) UIView<GCRefreshProtocol>* footerRefreshView;
+/**
+ *  The height of footer refresh trigger. Default is footerRefreshView's height.
+ */
+@property (nonatomic, assign) float footerRefreshTriggerHeight;
 /**
  *  Set the action when the footer refresh is triggered. Or nil if you want to
  *  remove the footer refresh function. The trigger height is the view's height.

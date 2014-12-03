@@ -7,39 +7,39 @@
 //
 
 #import "GCRefreshFooterView.h"
-
-#define indicateViewCount   5
+#import "RMIndicatorView.h"
 
 @interface GCRefreshFooterView ()
 
 @property (nonatomic, strong) UILabel* promptLabel;
-@property (nonatomic, strong) NSArray* indicateViews;
-@property (nonatomic, assign) int indicateTimerCounter;
-@property (nonatomic, strong) NSTimer* indicateTimer;
+@property (nonatomic, strong) RMIndicatorView* refreshIndicatorView;
+@property (nonatomic, strong) UIActivityIndicatorView* indicatorView;
 
 @end
+
 
 @implementation GCRefreshFooterView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.promptLabel = [[UILabel alloc] initWithFrame:self.bounds];
+        self.promptLabel = [[UILabel alloc] init];
         self.promptLabel.textAlignment = NSTextAlignmentCenter;
         self.promptLabel.textColor = [UIColor grayColor];
         [self addSubview:self.promptLabel];
-        [self _resetPromptLabel];
         
-        NSMutableArray* views = [NSMutableArray array];
-        for (int i = 0; i < indicateViewCount; i++) {
-            UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
-            view.layer.cornerRadius = 8;
-            view.layer.masksToBounds = NO;
-            [self addSubview:view];
-            [views addObject:view];
-        }
-        self.indicateViews = [views copy];
-        [self _resetIndicateViews];
+        self.refreshIndicatorView = [[RMIndicatorView alloc] initWithFrame:CGRectZero type:kRMMixedIndictor];
+        [self.refreshIndicatorView setBackgroundColor:[UIColor whiteColor]];
+        [self.refreshIndicatorView setFillColor:[UIColor grayColor]];
+        [self.refreshIndicatorView setStrokeColor:[UIColor grayColor]];
+        [self.refreshIndicatorView setClosedIndicatorBackgroundStrokeColor:[UIColor grayColor]];
+        [self addSubview:self.refreshIndicatorView];
+        
+        self.indicatorView = [[UIActivityIndicatorView alloc] init];
+        self.indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+        [self addSubview:self.indicatorView];
+        
+        [self _reset];
     }
     return self;
 }
@@ -47,68 +47,47 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    float leftMargin = (CGRectGetWidth(self.bounds) - (15 * indicateViewCount + 140)) / 2;
-    for (int i = 0, j = (int)[self.indicateViews count]; i < j; i++) {
-        UIView* view = self.indicateViews[i];
-        view.frame = CGRectMake(leftMargin + i * 15, CGRectGetHeight(self.bounds) / 2 - 5, 10, 10);
-    }
+    float leftMargin = (CGRectGetWidth(self.bounds) - (40 + 140)) / 2;
     
-    self.promptLabel.frame = CGRectMake(leftMargin + indicateViewCount * 15, 0, 140, CGRectGetHeight(self.bounds));
+    self.refreshIndicatorView.frame = CGRectMake(leftMargin, 10, 40, 40);
+    self.indicatorView.frame = CGRectMake(leftMargin, 10, 40, 40);
+    self.promptLabel.frame = CGRectMake(leftMargin + 40, 0, 140, CGRectGetHeight(self.bounds));
 }
 
 - (void)refreshFromProgress:(float)fromProgress toProgress:(float)toProgress {
     
-    [self _resetIndicateViewsHighlight:MIN(indicateViewCount, (int)(toProgress * indicateViewCount))];
-    
     if (toProgress >= 1.0) {
-        self.promptLabel.text = @"释放加载更多";
+        self.promptLabel.text = @"释放立即刷新";
     }
     if (toProgress < 1.0) {
-        self.promptLabel.text = @"继续上拉加载更多";
+        self.promptLabel.text = @"继续上拉刷新";
     }
+    [self.refreshIndicatorView updateWithProgress:toProgress];
 }
 
 - (void)refreshTriggered {
-    self.promptLabel.text = @"正在加载更多";
+    self.promptLabel.text = @"正在刷新";
     
-    self.indicateTimer = [NSTimer
-                          scheduledTimerWithTimeInterval:.1f
-                          target:self
-                          selector:@selector(_refreshingAnimation)
-                          userInfo:nil
-                          repeats:YES];
+    self.refreshIndicatorView.hidden = YES;
+    self.indicatorView.hidden = NO;
+    [self.indicatorView startAnimating];
 }
 
 - (void)refreshEnd {
-    self.promptLabel.text = @"加载完成";
-    [self.indicateTimer invalidate];
-    self.indicateTimer = nil;
+    self.promptLabel.text = @"刷新完成";
 }
 
 - (void)refreshCompleted {
-    [self _resetPromptLabel];
-    [self _resetIndicateViews];
+    [self _reset];
 }
 
-- (void)_refreshingAnimation {
-    [self _resetIndicateViewsHighlight:(self.indicateTimerCounter++ % indicateViewCount) + 1];
-}
-
-- (void)_resetIndicateViewsHighlight:(int)count {
-    [self _resetIndicateViews];
-    for (int i = 0, j = count; i < j; i++) {
-        UIView* view = self.indicateViews[i];
-        view.backgroundColor = [UIColor blueColor];
-    }
-}
-
-- (void)_resetPromptLabel {
-    self.promptLabel.text = @"继续上拉加载更多";
-}
-- (void)_resetIndicateViews {
-    for (UIView* view in self.indicateViews) {
-        view.backgroundColor = [UIColor grayColor];
-    }
+- (void)_reset {
+    self.promptLabel.text = @"继续上拉进行刷新";
+    
+    self.refreshIndicatorView.hidden = NO;
+    
+    self.indicatorView.hidden = YES;
+    [self.indicatorView stopAnimating];
 }
 
 @end

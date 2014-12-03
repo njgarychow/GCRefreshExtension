@@ -33,6 +33,8 @@
 		611E08981A2B65BD00719262 /* UITextField+GCDelegateBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E087D1A2B65BD00719262 /* UITextField+GCDelegateBlock.m */; };
 		611E08991A2B65BD00719262 /* UITextView+GCDelegateBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E087F1A2B65BD00719262 /* UITextView+GCDelegateBlock.m */; };
 		611E089A1A2B65BD00719262 /* UIWebView+GCDelegateBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E08811A2B65BD00719262 /* UIWebView+GCDelegateBlock.m */; };
+		61FDC2BD1A2F6149000910CB /* RMIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FDC2BB1A2F6149000910CB /* RMIndicatorView.m */; };
+		61FDC2C01A2F629B000910CB /* RMDisplayLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FDC2BF1A2F629B000910CB /* RMDisplayLabel.m */; };
 		B7BB34471A26C25D007FAC3C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BB34461A26C25D007FAC3C /* main.m */; };
 		B7BB344A1A26C25D007FAC3C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BB34491A26C25D007FAC3C /* AppDelegate.m */; };
 		B7BB344D1A26C25D007FAC3C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BB344C1A26C25D007FAC3C /* ViewController.m */; };
@@ -112,6 +114,10 @@
 		611E08801A2B65BD00719262 /* UIWebView+GCDelegateBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+GCDelegateBlock.h"; sourceTree = "<group>"; };
 		611E08811A2B65BD00719262 /* UIWebView+GCDelegateBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+GCDelegateBlock.m"; sourceTree = "<group>"; };
 		611E089B1A2B713D00719262 /* GCRefresh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCRefresh.h; sourceTree = "<group>"; };
+		61FDC2BA1A2F6149000910CB /* RMIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMIndicatorView.h; sourceTree = "<group>"; };
+		61FDC2BB1A2F6149000910CB /* RMIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMIndicatorView.m; sourceTree = "<group>"; };
+		61FDC2BE1A2F629B000910CB /* RMDisplayLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMDisplayLabel.h; sourceTree = "<group>"; };
+		61FDC2BF1A2F629B000910CB /* RMDisplayLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMDisplayLabel.m; sourceTree = "<group>"; };
 		B7BB34411A26C25D007FAC3C /* GCRefreshExtension.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GCRefreshExtension.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7BB34451A26C25D007FAC3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7BB34461A26C25D007FAC3C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -235,6 +241,17 @@
 			path = GCDelegateImplementationProxy;
 			sourceTree = "<group>";
 		};
+		61FDC2B71A2F6149000910CB /* RMIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				61FDC2BE1A2F629B000910CB /* RMDisplayLabel.h */,
+				61FDC2BF1A2F629B000910CB /* RMDisplayLabel.m */,
+				61FDC2BA1A2F6149000910CB /* RMIndicatorView.h */,
+				61FDC2BB1A2F6149000910CB /* RMIndicatorView.m */,
+			);
+			path = RMIndicator;
+			sourceTree = "<group>";
+		};
 		B7BB34381A26C25D007FAC3C = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +316,7 @@
 			isa = PBXGroup;
 			children = (
 				611E089B1A2B713D00719262 /* GCRefresh.h */,
+				61FDC2B71A2F6149000910CB /* RMIndicator */,
 				611E08481A2B65BD00719262 /* GCExtension */,
 				B7BB346E1A26CD19007FAC3C /* GCRefreshProtocol.h */,
 				B7BB346B1A26C441007FAC3C /* UIScrollView+GCRefresh.h */,
@@ -418,6 +436,7 @@
 				611E088A1A2B65BD00719262 /* GCAlertView.m in Sources */,
 				B7BB344D1A26C25D007FAC3C /* ViewController.m in Sources */,
 				611E08891A2B65BD00719262 /* GCActionSheet.m in Sources */,
+				61FDC2C01A2F629B000910CB /* RMDisplayLabel.m in Sources */,
 				B7BB344A1A26C25D007FAC3C /* AppDelegate.m in Sources */,
 				B7BB34471A26C25D007FAC3C /* main.m in Sources */,
 				611E08851A2B65BD00719262 /* NSObject+GCJSONExtension.m in Sources */,
@@ -425,6 +444,7 @@
 				611E08861A2B65BD00719262 /* NSObject+GCKVO.m in Sources */,
 				611E088F1A2B65BD00719262 /* UITextFieldDelegateImplementationProxy.m in Sources */,
 				611E08921A2B65BD00719262 /* UICollectionView+GCDelegateAndDataSourceBlock.m in Sources */,
+				61FDC2BD1A2F6149000910CB /* RMIndicatorView.m in Sources */,
 				611E08931A2B65BD00719262 /* UIControl+GCEventBlock.m in Sources */,
 				B7BB347C1A270D47007FAC3C /* GCRefreshHeaderView.m in Sources */,
 				611E088E1A2B65BD00719262 /* UITableViewDelegateAndDataSourceImplementationProxy.m in Sources */,

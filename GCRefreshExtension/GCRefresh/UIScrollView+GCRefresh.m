@@ -98,6 +98,17 @@ static char HeaderRefreshViewCharKey;
     }
 }
 
+@dynamic headerRefreshTriggerHeight;
+static char HeaderRefreshTriggerHeightKey;
+- (float)headerRefreshTriggerHeight {
+    return [objc_getAssociatedObject(self, &HeaderRefreshTriggerHeightKey) floatValue];
+}
+- (void)setHeaderRefreshTriggerHeight:(float)headerRefreshTriggerHeight {
+    [self willChangeValueForKey:@"headerRefreshTriggerHeight"];
+    objc_setAssociatedObject(self, &HeaderRefreshTriggerHeightKey, @(headerRefreshTriggerHeight), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self didChangeValueForKey:@"headerRefreshTriggerHeight"];
+}
+
 
 
 - (void)setHeaderRefreshAction:(void (^)())headerRefreshAction {
@@ -179,6 +190,17 @@ static char footerRefreshViewKey;
     }
 }
 
+@dynamic footerRefreshTriggerHeight;
+static char FooterRefreshTriggerHeightKey;
+- (float)footerRefreshTriggerHeight {
+    return [objc_getAssociatedObject(self, &FooterRefreshTriggerHeightKey) floatValue];
+}
+- (void)setFooterRefreshTriggerHeight:(float)footerRefreshTriggerHeight {
+    [self willChangeValueForKey:@"footerRefreshTriggerHeight"];
+    objc_setAssociatedObject(self, &FooterRefreshTriggerHeightKey, @(footerRefreshTriggerHeight), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self didChangeValueForKey:@"footerRefreshTriggerHeight"];
+}
+
 - (void)setFooterRefreshAction:(void (^)())footerRefreshAction {
     [self setFooterRefreshActionBlock:footerRefreshAction];
     
@@ -241,9 +263,15 @@ static char footerRefreshViewKey;
 #pragma mark - private method
 
 - (float)_headerRefreshTriggerHeight {
+    if (self.headerRefreshTriggerHeight > 0) {
+        return self.headerRefreshTriggerHeight;
+    }
     return CGRectGetHeight(self.headerRefreshView.bounds);
 }
 - (float)_footerRefreshTriggerHeight {
+    if (self.footerRefreshTriggerHeight > 0) {
+        return self.footerRefreshTriggerHeight;
+    }
     return CGRectGetHeight(self.footerRefreshView.bounds);
 }
 - (float)_footerRefreshTriggerYOffset {
