@@ -24,6 +24,7 @@
     __weak typeof(self) weakSelf = self;
     self.scroll = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.scroll.contentSize = CGSizeMake(CGRectGetWidth(self.scroll.bounds), CGRectGetHeight(self.scroll.bounds) * 2);
+    self.scroll.contentInset = UIEdgeInsetsMake(100, 0, 100, 0);
     [self.scroll setHeaderRefreshAction:^{
         [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopHeaderLoading) userInfo:nil repeats:NO];
     }];

@@ -84,6 +84,7 @@
 - (void)_reset {
     self.promptLabel.text = @"继续上拉进行刷新";
     
+    [self.refreshIndicatorView updateWithProgress:0];
     self.refreshIndicatorView.hidden = NO;
     
     self.indicatorView.hidden = YES;
