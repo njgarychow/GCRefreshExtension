@@ -14,8 +14,12 @@
  */
 @property (nonatomic, strong) UIView<GCRefreshProtocol>* headerRefreshView;
 /**
+ *  The height of header refresh trigger. Default is headerRefreshView's height.
+ */
+@property (nonatomic, assign) float headerRefreshTriggerHeight;
+/**
  *  Set the action when the header refresh is triggered. Or nil if you want to 
- *  remove the header refresh function. The trigger height is the view's height.
+ *  remove the header refresh function.
  *
  *  @param headerRefreshAction  The action will be invoke when the header refresh triggered.
  */
@@ -37,8 +41,12 @@
  */
 @property (nonatomic, strong) UIView<GCRefreshProtocol>* footerRefreshView;
 /**
+ *  The height of footer refresh trigger. Default is footerRefreshView's height.
+ */
+@property (nonatomic, assign) float footerRefreshTriggerHeight;
+/**
  *  Set the action when the footer refresh is triggered. Or nil if you want to
- *  remove the footer refresh function. The trigger height is the view's height.
+ *  remove the footer refresh function.
  *
  *  @param footerRefreshAction  The action will be invoke when the footer refresh triggered.
  */
@@ -95,35 +103,31 @@
     [super viewDidLoad];
     
     __weak typeof(self) weakSelf = self;
-    self.scroll = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    self.scroll.contentSize = CGSizeMake(CGRectGetWidth(self.scroll.bounds), CGRectGetHeight(self.scroll.bounds) * 2);
-    [self.scroll setHeaderRefreshAction:^{
+    self.tb = [[UITableView alloc] initWithFrame:self.view.bounds];
+    [self.tb setHeaderRefreshAction:^{
         [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopHeaderLoading) userInfo:nil repeats:NO];
     }];
-    [self.scroll setFooterRefreshAction:^{
+    [self.tb setFooterRefreshAction:^{
         [NSTimer scheduledTimerWithTimeInterval:2.0f target:weakSelf selector:@selector(stopFooterLoading) userInfo:nil repeats:NO];
     }];
-    [self.view addSubview:self.scroll];
-    
-    UIImageView* image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
-    CGRect frame = self.scroll.frame;
-    frame.size.height *= 2;
-    image.frame = frame;
-    [self.scroll addSubview:image];
+    [self.tb registerClass:[UITableViewCell class] forCellReuseIdentifier:@"reuse"];
+    self.tb.delegate = self;
+    self.tb.dataSource = self;
+    [self.view addSubview:self.tb];
 }
-
+- (void)stopHeaderLoading {
+    self.tbNumber = 10;
+    [self.tb reloadData];
+    [self.tb endHeaderRefresh];
+}
+- (void)stopFooterLoading {
+    self.tbNumber += 10;
+    [self.tb reloadData];
+    [self.tb endFooterRefresh];
+}
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.scroll startFooterRefreshWithAnimation:YES];
-}
-
-- (void)stopHeaderLoading {
-    self.scroll.contentSize = CGSizeMake(CGRectGetWidth(self.scroll.bounds), CGRectGetHeight(self.scroll.bounds) * 2.2);
-    [self.scroll endHeaderRefresh];
-}
-- (void)stopFooterLoading {
-    [self.scroll endFooterRefresh];
-    self.scroll.contentSize = CGSizeMake(CGRectGetWidth(self.scroll.bounds), CGRectGetHeight(self.scroll.bounds) * 2.2);
+    [self.tb startFooterRefreshWithAnimation:YES];
 }
 ```

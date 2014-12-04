@@ -368,6 +368,9 @@ static char FooterRefreshTriggerHeightKey;
                 self.originalContentInset = self.contentInset;
                 UIEdgeInsets insets = self.originalContentInset;
                 insets.bottom += triggerHeight;
+                if (self.contentSize.height < CGRectGetHeight(self.bounds)) {
+                    insets.bottom += CGRectGetHeight(self.bounds) - self.contentSize.height;
+                }
                 [UIView animateWithDuration:.3f animations:^{
                     self.contentInset = insets;
                 }];

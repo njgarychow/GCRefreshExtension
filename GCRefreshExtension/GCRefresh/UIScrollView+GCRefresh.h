@@ -21,7 +21,7 @@
 @property (nonatomic, assign) float headerRefreshTriggerHeight;
 /**
  *  Set the action when the header refresh is triggered. Or nil if you want to 
- *  remove the header refresh function. The trigger height is the view's height.
+ *  remove the header refresh function.
  *
  *  @param headerRefreshAction  The action will be invoke when the header refresh triggered.
  */
@@ -48,7 +48,7 @@
 @property (nonatomic, assign) float footerRefreshTriggerHeight;
 /**
  *  Set the action when the footer refresh is triggered. Or nil if you want to
- *  remove the footer refresh function. The trigger height is the view's height.
+ *  remove the footer refresh function.
  *
  *  @param footerRefreshAction  The action will be invoke when the footer refresh triggered.
  */
