@@ -128,6 +128,7 @@ static char HeaderRefreshTriggerHeightKey;
     
     if (headerRefreshAction && !self.headerRefreshView) {
         self.headerRefreshView = [[GCRefreshHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), 60)];
+        self.headerRefreshView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     }
     if (!headerRefreshAction && self.headerRefreshView) {
         self.headerRefreshView = nil;
@@ -218,6 +219,7 @@ static char FooterRefreshTriggerHeightKey;
     
     if (footerRefreshAction && !self.footerRefreshView) {
         self.footerRefreshView = [[GCRefreshFooterView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), 60)];
+        self.footerRefreshView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     }
     if (!footerRefreshAction && self.footerRefreshView) {
         self.footerRefreshView = nil;
