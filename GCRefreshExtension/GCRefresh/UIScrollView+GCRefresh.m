@@ -12,7 +12,7 @@
 
 #import "GCRefreshHeaderView.h"
 #import "GCRefreshFooterView.h"
-#import "GCExtension.h"
+#import "NSObject+GCKVO_FOR_REFRESH.h"
 
 
 @interface UIScrollView (GCRefreshProperty)
@@ -302,15 +302,15 @@ static char FooterRefreshTriggerHeightKey;
 }
 
 - (void)_startOrCancelRefreshObserve {
-    [self stopObserveObject:self forKeyPath:@"contentOffset"];
-    [self stopObserveObject:self forKeyPath:@"contentSize"];
+    [self gcr_stopObserveObject:self forKeyPath:@"contentOffset"];
+    [self gcr_stopObserveObject:self forKeyPath:@"contentSize"];
     
     if (!self.headerRefreshView && !self.footerRefreshView) {
         return;
     }
     
     __weak typeof(self) weakSelf = self;
-    [self startObserveObject:self forKeyPath:@"contentOffset" usingBlock:^(NSObject *target, NSString *keyPath, NSDictionary *change) {
+    [self gcr_startObserveObject:self forKeyPath:@"contentOffset" usingBlock:^(NSObject *target, NSString *keyPath, NSDictionary *change) {
         typeof(weakSelf) self = weakSelf;
         
         if (self.isRefreshing) {
@@ -380,7 +380,7 @@ static char FooterRefreshTriggerHeightKey;
         }
     }];
     
-    [self startObserveObject:self forKeyPath:@"contentSize" usingBlock:^(NSObject *target, NSString *keyPath, NSDictionary *change) {
+    [self gcr_startObserveObject:self forKeyPath:@"contentSize" usingBlock:^(NSObject *target, NSString *keyPath, NSDictionary *change) {
         typeof(weakSelf) self = weakSelf;
         
         [self _resetFooterViewFrame];

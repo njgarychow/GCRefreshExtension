@@ -6,9 +6,8 @@
 //  Copyright (c) 2014 zhoujinqiang. All rights reserved.
 //
 
-#import "NSObject+GCKVO.h"
+#import "NSObject+GCKVO_FOR_REFRESH.h"
 
-#import "GCMacro.h"
 #import <objc/runtime.h>
 
 @class GCKVOObserver;
@@ -98,7 +97,7 @@ typedef void(^GCObserverDeallocationHandler)();
     return self;
 }
 
-- (void)startObserveObject:(NSObject *)observeTarger
+- (void)gcr_startObserveObject:(NSObject *)observeTarger
                  forKeyPath:(NSString *)keyPath
                     options:(NSKeyValueObservingOptions)options
                  usingBlock:(GCKVOBlock)handler {
@@ -122,7 +121,7 @@ typedef void(^GCObserverDeallocationHandler)();
     wrapper.handlerBlock = handler;
 }
 
-- (void)stopObserveObject:(NSObject *)observeTarger
+- (void)gcr_stopObserveObject:(NSObject *)observeTarger
                 forKeyPath:(NSString *)keyPath {
     
     GCKVOObserverWrapper* wrapper = [self _wrapperForObserveTarget:observeTarger keyPath:keyPath];
@@ -143,7 +142,7 @@ typedef void(^GCObserverDeallocationHandler)();
 
 - (void)dealloc {
     for (GCKVOObserverWrapper* wrapper in _wrappers) {
-        [self stopObserveObject:wrapper.observeTarget forKeyPath:wrapper.keyPath];
+        [self gcr_stopObserveObject:wrapper.observeTarget forKeyPath:wrapper.keyPath];
     }
 }
 
@@ -208,18 +207,18 @@ static char DeallocationHandlerKey;
 
 
 
-@implementation NSObject (GCKVO)
+@implementation NSObject (GCKVO_FOR_REFRESH)
 
-- (void)startObserveObject:(NSObject *)observeTarger
+- (void)gcr_startObserveObject:(NSObject *)observeTarger
                 forKeyPath:(NSString *)keyPath
                 usingBlock:(GCKVOBlock)handler {
     
-    [self startObserveObject:observeTarger
+    [self gcr_startObserveObject:observeTarger
                   forKeyPath:keyPath
                      options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld)
                   usingBlock:handler];
 }
-- (void)startObserveObject:(NSObject *)observeTarger
+- (void)gcr_startObserveObject:(NSObject *)observeTarger
                 forKeyPath:(NSString *)keyPath
                    options:(NSKeyValueObservingOptions)options
                 usingBlock:(GCKVOBlock)handler {
@@ -228,16 +227,16 @@ static char DeallocationHandlerKey;
     NSParameterAssert(keyPath != nil);
     NSParameterAssert(handler != nil);
     
-    [[self theObserver] startObserveObject:observeTarger
+    [[self theObserver] gcr_startObserveObject:observeTarger
                                  forKeyPath:keyPath
                                     options:options
                                  usingBlock:handler];
 }
 
-- (void)stopObserveObject:(NSObject *)observeTarger
+- (void)gcr_stopObserveObject:(NSObject *)observeTarger
                forKeyPath:(NSString *)keyPath {
     
-    [[self theObserver] stopObserveObject:observeTarger forKeyPath:keyPath];
+    [[self theObserver] gcr_stopObserveObject:observeTarger forKeyPath:keyPath];
 }
 
 @end

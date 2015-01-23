@@ -17,7 +17,7 @@ typedef void (^GCKVOBlock)(NSObject* target, NSString* keyPath, NSDictionary* ch
  *  You don't have to remove the stop the observe. When either the observer or the 
  *  target deallocation. The observe action will be stop automatic.
  */
-@interface NSObject (GCKVO)
+@interface NSObject (GCKVO_FOR_REFRESH)
 
 /**
  *  start observe an object's keyPath. using the options NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld.
@@ -26,7 +26,7 @@ typedef void (^GCKVOBlock)(NSObject* target, NSString* keyPath, NSDictionary* ch
  *  @param keyPath       the keyPath of the object. same as kvo.
  *  @param handler       if the keyPath's value change, the handler block will be invoke.
  */
-- (void)startObserveObject:(NSObject *)observeTarger
+- (void)gcr_startObserveObject:(NSObject *)observeTarger
                 forKeyPath:(NSString *)keyPath
                 usingBlock:(GCKVOBlock)handler;
 /**
@@ -37,7 +37,7 @@ typedef void (^GCKVOBlock)(NSObject* target, NSString* keyPath, NSDictionary* ch
  *  @param options       the same as kvo.
  *  @param handler       if the keyPath's value change, the handler block will be invoke.
  */
-- (void)startObserveObject:(NSObject *)observeTarger
+- (void)gcr_startObserveObject:(NSObject *)observeTarger
                 forKeyPath:(NSString *)keyPath
                    options:(NSKeyValueObservingOptions)options
                 usingBlock:(GCKVOBlock)handler;
@@ -48,7 +48,7 @@ typedef void (^GCKVOBlock)(NSObject* target, NSString* keyPath, NSDictionary* ch
  *  @param observeTarger the target object was observed.
  *  @param keyPath       the same as kvo.
  */
-- (void)stopObserveObject:(NSObject *)observeTarger
+- (void)gcr_stopObserveObject:(NSObject *)observeTarger
                forKeyPath:(NSString *)keyPath;
 
 @end
